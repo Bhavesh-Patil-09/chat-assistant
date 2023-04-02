@@ -4,7 +4,6 @@ from model import create_model
 import random
 import tensorflow as tf
 from prepare import prepare_data
-import calender as cl
 import pyttsx3
 import speech_recognition as sr
 import subprocess
@@ -13,20 +12,29 @@ import tkinter as tk
 import os
 import webbrowser as wb
 import threading
-import weather
 import wikipedia
 import smtplib
-import keys
+from environs import Env
+import pywhatkit as pwt
+# import keys
+# import weather
+
+
 
 try:
     from googlesearch import search
 except:
     print("googlesearch not imported!")
 
-SERVICE = cl.authenticate()
+env = Env()
+env.read_env()
+EMAIL = env("EMAIL")
+PASSWORD = env("PASSWORD")
+
+to_dict = {'bhavesh': "bhavesh.patil@atmstech.in"}
 
 root = tk.Tk()
-root.geometry('500x600')
+root.geometry('600x600')
 heading = tk.Label(root, text="Welcome! Press the Button and ask whatever you want!",
                    font=('montserrat', 12, "bold"), fg="black").pack()
 frame = tk.Frame(root, bg="#FFF")
@@ -81,7 +89,7 @@ all_questions_train, tags_output = pr.get_training_set()
 all_questions_train = np.array(all_questions_train)
 tags_output = np.array(tags_output)
 
-tf.reset_default_graph()
+# tf.compat.v1.reset_default_graph()
 model = create_model(all_questions_train, tags_output, tags, all_question_words)
 model.fit_model(all_questions_train, tags_output)
 
@@ -129,18 +137,36 @@ def make_note():
     write = get_audio()
     note(write)
     speak("I've made a note of that.")
-    msg_list.insert(tk.END, "Boss: I've made a note of that.")
+    # msg_list.insert(tk.END, "Sir: I've made a note of that.")
 
-
+def play_youtube_song():
+    speak("which song would you like me to search on youtube")
+    query = get_audio()
+    while (query is None):
+        speak("what would you like me to search on youtube")
+        query = get_audio()
+    msg_list.insert(tk.END, "Sir: I have the following results:")
+    speak("I have the following results")
+    pwt.playonyt(f"{query} song")
+    
+    
 def perform_google_search():
     speak("what would you like me to search for")
     query = get_audio()
+    
+    
+    while (query is None):
+        speak("what would you like me to search for")
+        query = get_audio()
     speak("I have the following results")
-    msg_list.insert(tk.END, "Boss: I have the following results:")
-    for result in search(query, tld="co.in", num=1, stop=1, pause=2):
-        msg_list.insert(tk.END, "Boss: " + str(result))
+    msg_list.insert(tk.END, "Sir: I have the following results:")
+    # window = webview.create_window('Search', f'https://google.com/search?q={query}')
+    # webview.start()
+    
+    for result in search(query, num_results=2):
+        msg_list.insert(tk.END, "Sir: " + str(result))
         res = result
-
+        break
     wb.open(res)
 
 
@@ -164,7 +190,7 @@ def wish():
         speak("Good Afternoon")
     else:
         speak("Good Evening")
-    speak("I am Boss sir, How can I help you")
+    speak("I am your assistant sir, How can I help you")
 
 
 
@@ -173,8 +199,8 @@ def send_mails(to, body):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login(keys.EMAIL, keys.PASSWORD)
-    server.sendmail('4as1827000224@gmail.com', to, body)
+    server.login(EMAIL,PASSWORD)
+    server.sendmail(EMAIL, to['bhavesh'], body)
     server.close()
 
 
@@ -185,7 +211,7 @@ def main():
     sentence = get_audio()
     msg_list.insert(tk.END, "You: " + sentence)
     if sentence.count("exit") > 0:
-        msg_list.insert(tk.END, "Boss: Good Bye!")
+        msg_list.insert(tk.END, "Sir: Good Bye!")
         speak("Good bye")
         root.quit()
 
@@ -204,11 +230,11 @@ def main():
             body = get_audio()
             send_mails(keys.DICT[to], body)
             speak("Your mail has been sent successfully !")
-            msg_list.insert(tk.END, "Boss: Your mail has been sent successfully !")
+            msg_list.insert(tk.END, "Sir: Your mail has been sent successfully !")
         except Exception as e:
             print(e)
             speak("Sorry, Could not send this E-mail")
-            msg_list.insert(tk.END, "Boss: Sorry, Could not send this E-mail")
+            msg_list.insert(tk.END, "Sir: Sorry, Could not send this E-mail")
     elif sub_tag_word == "wikipedia-open":
         ans = answers_dict.get(sub_tag_word)
         a = random.choice(ans)
@@ -216,63 +242,40 @@ def main():
         results = wikipedia.summary(sentence, sentences=2)
         speak("According to wikipedia")
         speak(results)
-        msg_list.insert(tk.END, "Boss: " + str(results))
+        msg_list.insert(tk.END, "Sir: " + str(results))
     elif sub_tag_word == "music-open":
-        path = keys.PATH_MUSIC
-        ans = answers_dict.get(sub_tag_word)
-        a = random.choice(ans)
-        speak(a)
-        os.startfile(path)
-        msg_list.insert(tk.END, "Boss: opened Spotify")
+        try:
+            play_youtube_song()
+        except Exception as e:
+            print(str(e))
+            msg_list.insert(tk.END, "Sir: An error occurred!")
+            speak("An error occurred")
     elif sub_tag_word == "visual-studio-code-open":
         path = keys.PATH_VS_CODE
         ans = answers_dict.get(sub_tag_word)
         a = random.choice(ans)
         speak(a)
         os.startfile(path)
-        msg_list.insert(tk.END, "Boss: opened visual studio")
-    elif sub_tag_word == "call-weather-api":
-        speak("Please tell me the name of the city")
-        city = get_audio()
-        print("city: " + str(city))
-        weather_conditions = weather.get_weather(str(city))
-        speak(weather_conditions)
-        msg_list.insert(tk.END, "Boss: " + str(weather_conditions))
-    elif sub_tag_word == "know-date":
-        date = cl.get_date_for_day(sentence)
-        speak(date)
-        msg_list.insert(tk.END, "Boss: " + str(date))
-
-    elif sub_tag_word == "get-events":
-        try:
-            day = cl.get_date(sentence)
-            cl.get_selected_events(SERVICE, day, msg_list, tk)
-        except:
-            speak("None")
-            msg_list.insert(tk.END, "Boss: None")
-    elif sub_tag_word == "all-events":
-        try:
-            cl.get_all_events(SERVICE, msg_list, tk)
-        except:
-            msg_list.insert(tk.END, "Boss: None")
-            speak("None")
+        msg_list.insert(tk.END, "Sir: opened visual studio")
+   
     elif sub_tag_word == "make-notes":
         try:
             make_note()
         except:
-            msg_list.insert(tk.END, "Boss: Try again")
+            msg_list.insert(tk.END, "Sir: Try again")
             speak("try again")
     elif sub_tag_word == "search-google":
         try:
             perform_google_search()
-        except:
-            msg_list.insert(tk.END, "Boss: An error occurred!")
+        except Exception as e:
+            print(str(e))
+            msg_list.insert(tk.END, "Sir: An error occurred!")
             speak("An error occurred")
     else:
         ans = answers_dict.get(sub_tag_word)
         a = random.choice(ans)
         speak(a)
-        msg_list.insert(tk.END, "Boss: " + str(a))
+        msg_list.insert(tk.END, "Sir: " + str(a))
 
 
 def run():
@@ -280,7 +283,7 @@ def run():
     main_thread.start()
 
 
-picture = tk.PhotoImage(file=keys.PATH_IMAGE)
+picture = tk.PhotoImage(file="mic.png")
 send_button = tk.Button(root, image=picture, command=run, borderwidth=0)
 send_button.pack()
 

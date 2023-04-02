@@ -24,76 +24,9 @@
          		"sub": "normal-ask-name",
          		"questions": ["Hi, what's your name?", "Hello, may I know your name", "Tell me your name?","May I know your name", "whats your good name",
          		"What should I call you?", "Do you have a name?", "what is your name?"],
-         		"answers": ["I am Boss!", "You can call me Boss!", "My name is Boss!", "Hello, I am Boss", "Good to see you, I am Boss"]
+         		"answers": ["I am Pybot!", "You can call me Pybot!", "My name is PyBot!", "Hello, I am Pybot", "Good to see you, I am Pybot"]
          	}	
          ]
-		},
-		{"tag":"days",
-		 "all_questions": ["whats the date on monday?", "whats the date on tuesday?", "whats the date on wednesday?",
-		 			"whats the date on thursday?","whats the date on friday?","whats the date on saturday?","whats the date on sunday?",
-		 			"whats the date on coming sunday?", "whats the date on coming monday?", "whats the date on coming tuesday?",
-		 			"whats the date on coming wednesday?", "whats the date on coming thursday?", "whats the date on coming friday?",
-		 			"whats the date on coming saturday?", "date on coming monday?", "date tomorrow?", "whats the date tomorrow",
-		 			"date monday", "date tuesday", "date wednesday", "date thursday", "date friday", "date saturday",
-		 			"date sunday", "what month is this?", "whats day today", "whats date today",
-		 			"what is sunday?", "what is monday", "what is thursday", "what are days",
-		    		"what are friday","am i busy on sunday","am i busy on 31st august","is there any commitment for 16th febraury", 
-		    		"whats the event on monday","whats the event on tuesday", "whats the event on wednesday",
-		    		"whats the event on thursday", "whats the event on friday", "whats the event on saturday",
-		    		"whats the event on sunday", "do I have plans on sunday", "is there any event on 5th september",
-		    		"do i have plans on friday", "what are my plans on sunday", "what are my plans on monday",
-		    		"tell me my plans on 16th november", "what are my plans on tuesday 13th", 
-		    		"what are my plans on 22nd november", "do I have any event on 21st december", "Is there any event on 30th january",
-		    		"what are events on next monday","do I have any event this tuesday", "events on 21st june",
-		    		"events on 3rd may", "events on coming friday", "plans on next month", "do i have some commitments this thursday",
-		    		"what are my commitments for sunday", "what are commitments for 23rd april",
-		    		"what are my upcoming events", "what are commitments next days", "tell me my upcoming plans",
-					"what are the commitments i have for next days", "tell me all the plans of mine", "what are the plans i have next",
-		    		"give all the plans i have", "upcoming plans", "all upcoming events", "do i have any plans now", 
-		    		"do i have any events", "do i have some commitments now", "is there any event left", "is there any plan i am forgetting",
-		    		"remind me my plans", "remind my the upcoming events"],
-		 "sub_tags": [
-		 	{
-		 		"sub": "know-date",
-		 		"questions": ["whats the date on monday?", "whats the date on tuesday?", "whats the date on wednesday?",
-		 			"whats the date on thursday?","whats the date on friday?","whats the date on saturday?","whats the date on sunday?",
-		 			"whats the date on coming sunday?", "whats the date on coming monday?", "whats the date on coming tuesday?",
-		 			"whats the date on coming wednesday?", "whats the date on coming thursday?", "whats the date on coming friday?",
-		 			"whats the date on coming saturday?", "date on coming monday?", "date tomorrow?", "whats the date tomorrow",
-		 			"date monday", "date tuesday", "date wednesday", "date thursday", "date friday", "date saturday",
-		 			"date sunday", "what month is this?", "whats day today", "whats date today"],
-		 		"answers": ["none-from-here"]
-		    },
-		    {
-		    	"sub": "get-events",
-		    	"questions": ["am i busy on sunday","am i busy on 31st august","is there any commitment for 16th febraury", 
-		    				 "whats the event on monday","whats the event on tuesday", "whats the event on wednesday",
-		    				 "whats the event on thursday", "whats the event on friday", "whats the event on saturday",
-		    				 "whats the event on sunday", "do I have plans on sunday", "is there any event on 5th september",
-		    				 "do i have plans on friday", "what are my plans on sunday", "what are my plans on monday",
-		    				 "tell me my plans on 16th november", "what are my plans on tuesday 13th", 
-		    				 "what are my plans on 22nd november", "do I have any event on 21st december", "Is there any event on 30th january",
-		    				 "what are events on next monday","do I have any event this tuesday", "events on 21st june",
-		    				 "events on 3rd may", "events on coming friday", "plans on next month", "do i have some commitments this thursday",
-		    				 "what are my commitments for sunday", "what are commitments for 23rd april"],
-		    	"answers": ["none"]
-		    },
-		    {
-		    	"sub": "normal",
-		    	"questions": ["what is sunday?", "what is monday", "what is thursday", "what are days",
-		    				 "what are friday"],
-		    	"answers": ["Its just a normal day!", "Do not you have any plans that day?"]
-		    },
-		    {
-		    	"sub": "all-events",
-		    	"questions": ["what are my upcoming events", "what are commitments next days", "tell me my upcoming plans",
-		    				 "what are the commitments i have for next days", "tell me all the plans of mine", "what are the plans i have next",
-		    				 "give all the plans i have", "upcoming plans", "all upcoming events", "do i have any plans now", 
-		    				 "do i have any events", "do i have some commitments now", "is there any event left", "is there any plan i am forgetting",
-		    				 "remind me my plans", "remind my the upcoming events"],
-		    	"answers": ["No upcoming events"]
-		    }
-			]
 		},
 		{
 			"tag": "notes",
@@ -148,7 +81,7 @@
 			"tag": "google-search",
 			"all_questions": ["can you search something for me", "search this for me","make a google search",
 							 "hey, can you search one thing for me", "can you search something on google",
-							 "perform a google search", "search on google", "search google"],
+							 "perform a google search", "search on google", "search google", "find on google"],
 			"sub_tags": [
 				{
 					"sub": "search-google",
@@ -156,21 +89,6 @@
 								"hey, can you search one thing for me", "can you search something on google",
 								"perform a google search", "search on google", "search google"],
 					"answers": ["Sure, let me search!"]
-				}
-			]
-		},
-		{
-			"tag": "weather-api-call",
-			"all_questions": ["can you tell me something about the weather conditions", "what is the current weather conditions","I want to go out now is it raining",
-							 "hey, how is the weather", "hey, tell me about the weather conditions i want to go out for a walk",
-							 "what is the current temperature", "Is it cloudy outside", "is it sunny outside", "is it raining", "how is the weather"],
-			"sub_tags": [
-				{
-					"sub": "call-weather-api",
-					"questions": ["can you tell me something about the weather conditions", "what is the current weather conditions","I want to go out now is it raining",
-							 "hey, how is the weather", "hey, tell me about the weather conditions i want to go out for a walk",
-							 "what is the current temperature", "Is it cloudy outside", "is it sunny outside", "is it raining", "how is the weather"],
-					"answers": ["Sure, let me find out"]
 				}
 			]
 		},

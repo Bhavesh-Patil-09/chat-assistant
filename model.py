@@ -7,7 +7,7 @@ from nltk.stem.lancaster import LancasterStemmer
 class create_model:
 
 	def __init__(self, train, output, tags, all_questions_words):
-		tf.reset_default_graph()
+		tf.compat.v1.reset_default_graph()
 		self.tags = tags
 		self.words = all_questions_words
 		self.network = tflearn.input_data(shape=[None,len(train[0])])
@@ -17,8 +17,8 @@ class create_model:
 		self.network = tflearn.regression(self.network)
 		self.model = tflearn.DNN(self.network)
 
-	def fit_model(self, train, output, n=400, batch = 8, metric=True):
-		self.model.fit(train, output, n_epoch = n, batch_size=batch, show_metric=metric)
+	def fit_model(self, train, output, n=200, batch=20, metric=True):
+		self.model.fit(train, output, n_epoch=n, batch_size=batch, show_metric=metric)
 
 	
 	def input_words(self, sentence):
@@ -41,11 +41,3 @@ class create_model:
 
 	def get_tags(self):
 		return self.tags
-
-
-
-
-
-
-
-
