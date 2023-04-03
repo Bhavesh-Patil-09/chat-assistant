@@ -52,9 +52,6 @@ def get_location_coordinates(key, place):
 
         crosscheck --> https://ipstack.com/ ->( here ip is your public ip can be verified by typing get my ip) 
     '''
-
-    url = "https://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC"
-
     # create a geolocator object with the MapQuest
     geolocator = MapQuest(key)
 
@@ -65,10 +62,13 @@ def get_location_coordinates(key, place):
 
 def get_distance(key, place1: str, place2: str):
     # Return distance in kilometers
-    if all([place1, place2]):
-        dist = round(distance.distance(place1, place2).km, 1)
-        print(dist)
-        return dist
-    else:
+    try:
+        if all([place1, place2]):
+            dist = round(distance.distance(place1, place2).km, 1)
+            print(dist)
+            return dist
+        else:
+            dist = round(random.random(), 1)
+    except Exception as e:
         dist = round(random.random(), 1)
         return dist
