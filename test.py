@@ -17,14 +17,15 @@ if __name__ == "__main__":
         "system": chatbot.system_status,
         "weather": chatbot.get_weather,
         "datetime": chatbot.current_datetime,
-        "locationdistance": chatbot.calc_location_difference
+        "locationdistance": chatbot.calc_location_difference,
+        "email": chatbot.send_email
         }
     assistant = GenericAssistant('dataset.json', mappings)
     # assistant.train_model()
     # assistant.save_model()
 
     assistant.load_model()
-    myintents = ["find the distance"]
+    myintents = ["hey can you please send an email"]
     # myintents = [
     #     "hi",
     #     "hey how are you", 
@@ -44,6 +45,7 @@ if __name__ == "__main__":
     #     "play some music",
     #     "what is your name",
     #     "bye bye",
+
     #     ]
 
     for i in myintents:

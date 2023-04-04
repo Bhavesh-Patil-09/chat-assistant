@@ -43,7 +43,8 @@ class App:
             "system": self.voice_assistant.system_status,
             "weather": self.voice_assistant.get_weather,
             "datetime": self.voice_assistant.current_datetime,
-            "locationdistance": self.voice_assistant.calc_location_difference
+            "locationdistance": self.voice_assistant.calc_location_difference,
+            "email": self.voice_assistant.send_email
             }
 
         # create ML model

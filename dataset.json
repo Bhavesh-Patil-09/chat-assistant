@@ -19,6 +19,15 @@
             ]
         },
         {
+			"tag": "email",
+			"patterns": ["Hey! can you send a mail", "Boss send a mail",
+							 "send a mail", "please send a mail", "compose a mail", "please compose a mail",
+							 "send an email", "Please send an email", "compose an email"],
+			"responses": [
+				"Yeah! Sure sir...sending email"
+			]
+		},
+        {
             "tag": "apps",
             "patterns": [
                 "open notepad",
@@ -59,11 +68,11 @@
                 "My name is john, what's your name?"
             ],
             "responses": [
-                "I am Pybot!",
-                "You can call me Pybot!",
-                "My name is Pybot!",
-                "Hello, I am Pybot",
-                "Good to see you, I am Pybot"
+                "I am Ray, your assistant!",
+                "You can call me Ray!",
+                "My name is Ray!",
+                "Hello, I am Ray, your assistant.. how may I help you?",
+                "Good to see you, I am Ray"
             ]
         },
         {

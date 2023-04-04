@@ -2,7 +2,11 @@ import requests
 from geopy.geocoders import MapQuest
 from geopy import distance
 import random
+import smtplib, ssl
+from email.message import EmailMessage
 
+class EmailException(Exception):
+    pass
 
 def get_weather_condition(key, city):
     try:
@@ -72,3 +76,31 @@ def get_distance(key, place1: str, place2: str):
     except Exception as e:
         dist = round(random.random(), 1)
         return dist
+    
+
+def send_mails(sender_email, password, receiver_emails, email_header, email_body):
+    try:
+        port = 587  # For starttls
+        smtp_server = "smtp.gmail.com"
+        password = password
+        # message = f"""\
+        # Subject: {email_header}
+
+        # {email_body}"""
+
+        msg = EmailMessage()
+        msg.set_content(email_body)
+
+        msg['Subject'] = email_header
+        msg['From'] = sender_email
+        msg['To'] = receiver_emails
+        context = ssl.create_default_context()
+        with smtplib.SMTP(smtp_server, port) as server:
+            server.ehlo()  # Can be omitted
+            server.starttls(context=context)
+            server.ehlo()  # Can be omitted
+            server.login(sender_email, password)
+            server.send_message(msg)
+    except Exception as e:
+        print(str(e))
+        raise EmailException()

@@ -13,7 +13,8 @@ from utils import (
     get_weather_condition, 
     get_news_headline,
     get_location_coordinates,
-    get_distance
+    get_distance,
+    send_mails
 )
 # import parsers
 
@@ -29,8 +30,9 @@ class VoiceAssistant:
         # self.query = query
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
-        self.email = env.str("EMAIL")
+        self.sender_email = env.str("EMAIL")
         self.password = env.str("PASSWORD")
+        self.recievers = env.list("RECIEVERS")
         self.weather_key = env("WEATHER_API_KEY")
         self.news_key = env("NEWS_API_KEY")
         self.map_key = env("MAP_API_KEY")
@@ -227,8 +229,41 @@ class VoiceAssistant:
 
 
     # Functionality
-    def send_email(self, reciever, msg="Hello, greeting from me."):
-        pass
+    def send_email(self, message):
+        try:
+            self.speak("What should be the subject of an email ?")
+            response = recognize_speech_from_mic(
+                        self.recognizer, self.microphone)
+            
+            while not response.get('transcription'):
+                self.speak("Can you please repeat subject again?")
+                self.engine.say("Can you please repeat subject again?")
+                self.engine.runAndWait()
+                response = recognize_speech_from_mic(self.recognizer, self.microphone)
+                
+            email_subject = response.get('transcription')
+
+            self.speak("What should be in the context or body of an email?")
+            response = recognize_speech_from_mic(
+                        self.recognizer, self.microphone)
+            
+            while not response.get('transcription'):
+                self.speak("Can you please repeat again?")
+                self.engine.say("Can you please repeat subject again?")
+                self.engine.runAndWait()
+                response = recognize_speech_from_mic(
+                        self.recognizer, self.microphone)
+
+            email_body = response.get('transcription')
+            print(self.sender_email, self.password, self.recievers, email_subject, email_body)
+            send_mails(self.sender_email, self.password, self.recievers, email_subject, email_body)
+            self.speak("Your mail has been sent successfully !")
+            
+        except Exception as e:
+            print(e)
+            self.speak("Sorry, Could not send this E-mail")
+        finally:
+            return None 
 
     # Launch/Open
     def play_youtube(self, entity):
